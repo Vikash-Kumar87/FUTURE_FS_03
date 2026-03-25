@@ -22,9 +22,9 @@ export default function ContactPage() {
       await createContact(form);
       setStatus("Thanks! Your message has been sent.");
       setForm(initial);
-    } catch {
+    } catch (error) {
       if (navigator.onLine) {
-        setStatus("Could not send message to server. Please try again.");
+        setStatus(error?.message || "Could not send message to server. Please try again.");
         return;
       }
 

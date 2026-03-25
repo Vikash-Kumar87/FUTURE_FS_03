@@ -10,10 +10,17 @@ export default function AppointmentPage() {
   const [form, setForm] = useState(initial);
   const [status, setStatus] = useState("");
   const [queuedCount, setQueuedCount] = useState(0);
+  const [dateInputType, setDateInputType] = useState("text");
 
   useEffect(() => {
     setQueuedCount(getQueuedItems(APPOINTMENT_QUEUE_KEY).length);
   }, []);
+
+  useEffect(() => {
+    if (form.date) {
+      setDateInputType("date");
+    }
+  }, [form.date]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -22,9 +29,9 @@ export default function AppointmentPage() {
       await createAppointment(form);
       setStatus("Appointment request sent successfully.");
       setForm(initial);
-    } catch {
+    } catch (error) {
       if (navigator.onLine) {
-        setStatus("Could not send appointment to server. Please try again.");
+        setStatus(error?.message || "Could not send appointment to server. Please try again.");
         return;
       }
 
@@ -51,7 +58,20 @@ export default function AppointmentPage() {
             <option>Group Functional Classes</option>
             <option>Nutrition Coaching</option>
           </select>
-          <input className="date-input w-full rounded-xl border bg-white/80 p-3 text-slate-900 dark:bg-slate-900/70 dark:text-slate-100" type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
+          <input
+            className="date-input w-full rounded-xl border bg-white/80 p-3 text-slate-900 dark:bg-slate-900/70 dark:text-slate-100"
+            type={dateInputType}
+            placeholder="Select appointment date"
+            value={form.date}
+            onFocus={() => setDateInputType("date")}
+            onBlur={() => {
+              if (!form.date) {
+                setDateInputType("text");
+              }
+            }}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+            required
+          />
           <button className="rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-700">Submit Request</button>
           <p className="text-sm text-slate-600 dark:text-slate-300">{status}</p>
         </form>
