@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Manrope:wght@600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+* {
+  @apply border-slate-200 dark:border-slate-800;
+}
+
+body {
+  @apply font-body antialiased;
+}
+
+.glass {
+  @apply rounded-2xl border border-white/30 bg-white/40 shadow-glass backdrop-blur-md dark:border-slate-700/40 dark:bg-slate-900/40;
+}
+
+.section-wrap {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.footer-glow {
+  position: absolute;
+  inset: -120px auto auto 50%;
+  width: 520px;
+  height: 240px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.28), rgba(245, 158, 11, 0.14) 46%, transparent 72%);
+  filter: blur(18px);
+  pointer-events: none;
+}
