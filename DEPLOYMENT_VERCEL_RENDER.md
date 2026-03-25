@@ -88,4 +88,5 @@ Then redeploy backend.
 - API blocked by CORS:
   - Ensure `CLIENT_ORIGIN` exactly matches deployed frontend URL.
 - Data resets after deploy:
-  - Keep Render disk mounted and `DATA_FILE_PATH=/var/data/db.json`.
+   - Render free plan uses ephemeral filesystem; JSON data may reset on restart/redeploy.
+   - For persistent data, upgrade plan with disk support or move to managed DB (MongoDB/Postgres).
