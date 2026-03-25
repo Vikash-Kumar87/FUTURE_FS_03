@@ -3,6 +3,7 @@ import {
   browserLocalPersistence,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -35,6 +36,7 @@ export function AuthProvider({ children }) {
       loading,
       loginWithEmail: (email, password) => signInWithEmailAndPassword(auth, email, password),
       registerWithEmail: (email, password) => createUserWithEmailAndPassword(auth, email, password),
+      resetPassword: (email) => sendPasswordResetEmail(auth, email),
       loginWithGoogle: async () => {
         try {
           return await signInWithPopup(auth, googleProvider);

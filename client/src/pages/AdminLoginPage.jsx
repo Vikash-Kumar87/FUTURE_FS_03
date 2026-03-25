@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState("login");
   const [error, setError] = useState("");
-  const { loginWithEmail, registerWithEmail, loginWithGoogle, logout } = useAuth();
+  const { loginWithEmail, registerWithEmail, loginWithGoogle, logout, resetPassword } = useAuth();
   const navigate = useNavigate();
 
   async function handleEmailAuth(event) {
@@ -49,6 +49,9 @@ export default function AdminLoginPage() {
 
       navigate("/admin/dashboard");
     } catch (authError) {
+      if (mode === "register" && authError?.code === "auth/email-already-in-use") {
+        setMode("login");
+      }
       setError(getFriendlyAuthMessage(authError));
     }
   }
@@ -71,6 +74,22 @@ export default function AdminLoginPage() {
       }
 
       navigate("/admin/dashboard");
+    } catch (authError) {
+      setError(getFriendlyAuthMessage(authError));
+    }
+  }
+
+  async function handleForgotPassword() {
+    setError("");
+
+    if (!email.trim()) {
+      setError("Enter your email first, then click Forgot Password.");
+      return;
+    }
+
+    try {
+      await resetPassword(email.trim());
+      setError("Password reset link sent. Check your email inbox.");
     } catch (authError) {
       setError(getFriendlyAuthMessage(authError));
     }
@@ -121,6 +140,9 @@ export default function AdminLoginPage() {
           </form>
 
           <button onClick={handleGoogle} className="mt-3 w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold">Continue with Google</button>
+          <button type="button" onClick={handleForgotPassword} className="mt-3 text-sm font-semibold text-slate-600 dark:text-slate-300">
+            Forgot Password?
+          </button>
           <button onClick={() => setMode((m) => (m === "login" ? "register" : "login"))} className="mt-3 text-sm font-semibold text-brand-600">
             {mode === "login" ? "Need an account? Register" : "Already have an account? Login"}
           </button>
