@@ -35,3 +35,15 @@ body {
   filter: blur(18px);
   pointer-events: none;
 }
+
+.date-input {
+  color-scheme: light;
+}
+
+.dark .date-input {
+  color-scheme: dark;
+}
+
+.dark .date-input::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(1.2);
+}

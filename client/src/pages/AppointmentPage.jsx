@@ -51,7 +51,7 @@ export default function AppointmentPage() {
             <option>Group Functional Classes</option>
             <option>Nutrition Coaching</option>
           </select>
-          <input className="w-full rounded-xl border bg-white/80 p-3 dark:bg-slate-900/70" type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
+          <input className="date-input w-full rounded-xl border bg-white/80 p-3 text-slate-900 dark:bg-slate-900/70 dark:text-slate-100" type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
           <button className="rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white hover:bg-brand-700">Submit Request</button>
           <p className="text-sm text-slate-600 dark:text-slate-300">{status}</p>
         </form>

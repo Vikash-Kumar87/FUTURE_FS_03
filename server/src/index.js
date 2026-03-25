@@ -11,10 +11,24 @@ const allowedOrigins = (process.env.CLIENT_ORIGIN || "http://localhost:5173")
   .map((value) => value.trim())
   .filter(Boolean);
 
+const allowedOriginPatterns = [
+  /^https:\/\/.*\.vercel\.app$/,
+  /^http:\/\/localhost:\d+$/,
+  /^https:\/\/localhost:\d+$/
+];
+
+function isAllowedOrigin(origin) {
+  if (allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  return allowedOriginPatterns.some((pattern) => pattern.test(origin));
+}
+
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || isAllowedOrigin(origin)) {
         callback(null, true);
         return;
       }
