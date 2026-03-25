@@ -1,4 +1,4 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "/api").replace(/\/$/, "");
+const API_BASE_URL = String(import.meta.env.VITE_API_BASE_URL || "/api").trim().replace(/\/$/, "");
 
 async function request(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {
@@ -29,8 +29,8 @@ async function request(path, options = {}) {
 
 function getAdminHeaders(userEmail) {
   return {
-    "x-admin-email": userEmail || "",
-    "x-admin-api-key": import.meta.env.VITE_ADMIN_API_KEY || ""
+    "x-admin-email": String(userEmail || "").trim(),
+    "x-admin-api-key": String(import.meta.env.VITE_ADMIN_API_KEY || "").trim()
   };
 }
 
