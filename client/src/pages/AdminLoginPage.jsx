@@ -24,7 +24,7 @@ function isAdminAllowed(email) {
 }
 
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState(() => import.meta.env.VITE_ADMIN_EMAIL || "");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState("login");
