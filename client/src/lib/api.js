@@ -1,4 +1,19 @@
-const API_BASE_URL = String(import.meta.env.VITE_API_BASE_URL || "/api").trim().replace(/\/$/, "");
+const DEPLOYED_BACKEND_API = "https://future-fit-backend-4oec.onrender.com/api";
+const envApiBase = String(import.meta.env.VITE_API_BASE_URL || "").trim();
+
+const resolvedApiBase = (() => {
+  if (!envApiBase) {
+    return import.meta.env.PROD ? DEPLOYED_BACKEND_API : "/api";
+  }
+
+  if (import.meta.env.PROD && envApiBase === "/api") {
+    return DEPLOYED_BACKEND_API;
+  }
+
+  return envApiBase;
+})();
+
+const API_BASE_URL = resolvedApiBase.replace(/\/$/, "");
 
 async function request(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import PageShell from "../components/PageShell";
 import { useAuth } from "../context/AuthContext";
 
@@ -29,8 +29,18 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState("login");
   const [error, setError] = useState("");
-  const { loginWithEmail, registerWithEmail, loginWithGoogle, logout, resetPassword } = useAuth();
+  const { loginWithEmail, registerWithEmail, logout, resetPassword } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const openedFromAdminNav = Boolean(location.state?.fromAdminNav);
+
+    if (isMobile && !openedFromAdminNav) {
+      navigate("/", { replace: true });
+    }
+  }, [location.state, navigate]);
 
   async function handleEmailAuth(event) {
     event.preventDefault();
@@ -52,29 +62,6 @@ export default function AdminLoginPage() {
       if (mode === "register" && authError?.code === "auth/email-already-in-use") {
         setMode("login");
       }
-      setError(getFriendlyAuthMessage(authError));
-    }
-  }
-
-  async function handleGoogle() {
-    setError("");
-    try {
-      const result = await loginWithGoogle();
-
-      if (!result) {
-        setError("Opening Google sign-in flow...");
-        return;
-      }
-
-      const signedInEmail = result?.user?.email;
-      if (!isAdminAllowed(signedInEmail)) {
-        await logout();
-        setError(`This Google account is not an authorized admin. Allowed admin: ${import.meta.env.VITE_ADMIN_EMAIL || "(not configured)"}`);
-        return;
-      }
-
-      navigate("/admin/dashboard");
-    } catch (authError) {
       setError(getFriendlyAuthMessage(authError));
     }
   }
@@ -139,7 +126,6 @@ export default function AdminLoginPage() {
             <button className="w-full rounded-xl bg-brand-600 px-5 py-3 text-sm font-semibold text-white">{mode === "register" ? "Create Account" : "Login"}</button>
           </form>
 
-          <button onClick={handleGoogle} className="mt-3 w-full rounded-xl border border-slate-300 px-5 py-3 text-sm font-semibold">Continue with Google</button>
           <button type="button" onClick={handleForgotPassword} className="mt-3 text-sm font-semibold text-slate-600 dark:text-slate-300">
             Forgot Password?
           </button>

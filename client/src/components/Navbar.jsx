@@ -67,6 +67,7 @@ export default function Navbar({ dark, onToggleTheme }) {
             >
               <NavLink
                 to={to}
+                state={to === "/admin/login" ? { fromAdminNav: true } : undefined}
                 className={({ isActive }) =>
                   `rounded-full px-3 py-2 text-sm font-semibold transition ${
                     isActive
@@ -116,6 +117,7 @@ export default function Navbar({ dark, onToggleTheme }) {
                 <NavLink
                   key={to}
                   to={to}
+                  state={to === "/admin/login" ? { fromAdminNav: true } : undefined}
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
                     `rounded-xl px-3 py-2 text-sm font-semibold transition ${

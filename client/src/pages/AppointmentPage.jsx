@@ -23,6 +23,11 @@ export default function AppointmentPage() {
       setStatus("Appointment request sent successfully.");
       setForm(initial);
     } catch {
+      if (navigator.onLine) {
+        setStatus("Could not send appointment to server. Please try again.");
+        return;
+      }
+
       const count = enqueueItem(APPOINTMENT_QUEUE_KEY, form);
       setQueuedCount(count);
       setStatus("Backend unavailable. Appointment request saved locally.");

@@ -23,6 +23,11 @@ export default function ContactPage() {
       setStatus("Thanks! Your message has been sent.");
       setForm(initial);
     } catch {
+      if (navigator.onLine) {
+        setStatus("Could not send message to server. Please try again.");
+        return;
+      }
+
       const count = enqueueItem(CONTACT_QUEUE_KEY, form);
       setQueuedCount(count);
       setStatus("Backend unavailable. Your message is saved locally.");
