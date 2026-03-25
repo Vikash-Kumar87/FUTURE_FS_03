@@ -106,6 +106,7 @@ export default function AdminDashboardPage() {
               {contacts.map((item, index) => (
                 <article key={item.id || `${item.queuedAt}-${index}`} className="rounded-xl border bg-white/70 p-4 dark:bg-slate-900/50">
                   <p className="font-semibold">{item.name} ({item.email})</p>
+                  <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Phone: {item.phone || "N/A"}</p>
                   <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{item.message}</p>
                   <button onClick={() => handleDeleteContact(index, item.id)} className="mt-3 text-sm font-semibold text-rose-500">Delete</button>
                 </article>

@@ -25,7 +25,7 @@ function isAdminAllowed(email) {
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState(() => import.meta.env.VITE_ADMIN_EMAIL || "");
-  const [password, setPassword] = useState("1234560");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState("login");
   const [error, setError] = useState("");
@@ -89,6 +89,7 @@ export default function AdminLoginPage() {
           <h1 className="font-heading text-3xl font-extrabold">Admin Access</h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Only authorized admin email can access the dashboard.</p>
           <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Configured admin: {import.meta.env.VITE_ADMIN_EMAIL || "not set"}</p>
+          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">Default password: 1234560</p>
 
           <form onSubmit={handleEmailAuth} className="mt-6 space-y-3">
             <input type="email" autoComplete="email" placeholder="Email" className="w-full rounded-xl border bg-white/80 p-3 dark:bg-slate-900/70" value={email} onChange={(e) => setEmail(e.target.value)} required />
